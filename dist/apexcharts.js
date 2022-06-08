@@ -16766,7 +16766,7 @@
         var w = this.w;
         var activeIndex = 0;
         var currIndex = null;
-        var j = -1;
+        var j = 0;
 
         if (w.globals.series.length > 1) {
           activeIndex = this.getFirstActiveXArray(Xarrays);
@@ -16774,7 +16774,7 @@
           currIndex = 0;
         }
 
-        var currX = Xarrays[activeIndex][0];
+        var currX = Xarrays[activeIndex][j];
         var diffX = Math.abs(hoverX - currX); // find nearest point on x-axis
 
         Xarrays.forEach(function (arrX) {
