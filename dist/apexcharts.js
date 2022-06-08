@@ -16768,6 +16768,13 @@
         var currIndex = null;
         var j = 0;
 
+        if (!Xarrays.length || !Yarrays.length) {
+          return {
+            index: -1,
+            j: -1
+          };
+        }
+
         if (w.globals.series.length > 1) {
           activeIndex = this.getFirstActiveXArray(Xarrays);
         } else {
@@ -16786,23 +16793,19 @@
               j = iX;
             }
           });
+        }); // find nearest graph on y-axis relevanted to nearest point on x-axis
+
+        var currY = Yarrays[activeIndex][j];
+        var diffY = Math.abs(hoverY - currY);
+        currIndex = activeIndex;
+        Yarrays.forEach(function (arrY, iAY) {
+          var newDiff = Math.abs(hoverY - arrY[j]);
+
+          if (newDiff < diffY) {
+            diffY = newDiff;
+            currIndex = iAY;
+          }
         });
-
-        if (j !== -1) {
-          // find nearest graph on y-axis relevanted to nearest point on x-axis
-          var currY = Yarrays[activeIndex][j];
-          var diffY = Math.abs(hoverY - currY);
-          currIndex = activeIndex;
-          Yarrays.forEach(function (arrY, iAY) {
-            var newDiff = Math.abs(hoverY - arrY[j]);
-
-            if (newDiff < diffY) {
-              diffY = newDiff;
-              currIndex = iAY;
-            }
-          });
-        }
-
         return {
           index: currIndex,
           j: j
