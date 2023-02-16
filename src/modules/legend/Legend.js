@@ -227,7 +227,8 @@ class Legend {
         rel: i + 1,
         i,
         'data:default-text': encodeURIComponent(text),
-        'data:collapsed': collapsedSeries || ancillaryCollapsedSeries
+        'data:collapsed': collapsedSeries || ancillaryCollapsedSeries,
+        'title': text,
       })
 
       elLegend.appendChild(elMarker)
