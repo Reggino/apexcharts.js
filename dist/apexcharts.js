@@ -14022,7 +14022,8 @@
             rel: i + 1,
             i: i,
             'data:default-text': encodeURIComponent(text),
-            'data:collapsed': collapsedSeries || ancillaryCollapsedSeries
+            'data:collapsed': collapsedSeries || ancillaryCollapsedSeries,
+            'title': text
           });
           elLegend.appendChild(elMarker);
           elLegend.appendChild(elLegendText);
@@ -15567,7 +15568,14 @@
         var w = this.w;
         var activeIndex = 0;
         var currIndex = null;
-        var j = -1;
+        var j = 0;
+
+        if (!Xarrays.length || !Yarrays.length) {
+          return {
+            index: -1,
+            j: -1
+          };
+        }
 
         if (w.globals.series.length > 1) {
           activeIndex = this.getFirstActiveXArray(Xarrays);
@@ -15575,7 +15583,7 @@
           currIndex = 0;
         }
 
-        var currX = Xarrays[activeIndex][0];
+        var currX = Xarrays[activeIndex][j];
         var diffX = Math.abs(hoverX - currX); // find nearest point on x-axis
 
         Xarrays.forEach(function (arrX) {
@@ -15587,23 +15595,19 @@
               j = iX;
             }
           });
+        }); // find nearest graph on y-axis relevanted to nearest point on x-axis
+
+        var currY = Yarrays[activeIndex][j];
+        var diffY = Math.abs(hoverY - currY);
+        currIndex = activeIndex;
+        Yarrays.forEach(function (arrY, iAY) {
+          var newDiff = Math.abs(hoverY - arrY[j]);
+
+          if (newDiff < diffY) {
+            diffY = newDiff;
+            currIndex = iAY;
+          }
         });
-
-        if (j !== -1) {
-          // find nearest graph on y-axis relevanted to nearest point on x-axis
-          var currY = Yarrays[activeIndex][j];
-          var diffY = Math.abs(hoverY - currY);
-          currIndex = activeIndex;
-          Yarrays.forEach(function (arrY, iAY) {
-            var newDiff = Math.abs(hoverY - arrY[j]);
-
-            if (newDiff < diffY) {
-              diffY = newDiff;
-              currIndex = iAY;
-            }
-          });
-        }
-
         return {
           index: currIndex,
           j: j

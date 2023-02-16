@@ -102,5 +102,8 @@
     "graphs",
     "visualizations",
     "data"
-  ]
+  ],
+  "engines": {
+    "node": "16"
+  }
 }
