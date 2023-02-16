@@ -14023,7 +14023,7 @@
             i: i,
             'data:default-text': encodeURIComponent(text),
             'data:collapsed': collapsedSeries || ancillaryCollapsedSeries,
-            'title': text
+            title: text.split('<span')[0]
           });
           elLegend.appendChild(elMarker);
           elLegend.appendChild(elLegendText);
